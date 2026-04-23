@@ -341,11 +341,11 @@ class Install(ctk.CTkFrame):
         base = p.install_dir.get()
 
         # 1. Clone main repo
-        # self.log("[STEP] Cloning main repository...")
-        # main_path = os.path.join(p.install_dir.get())
-        # if os.path.exists(main_path):
-        #     shutil.rmtree(main_path)
-        # subprocess.run(f'git clone {MAIN_REPO} "{main_path}"', shell=True)
+        self.log("[STEP] Cloning main repository...")
+        main_path = os.path.join(p.install_dir.get())
+        if os.path.exists(main_path):
+            shutil.rmtree(main_path)
+        subprocess.run(f'git clone {MAIN_REPO} "{main_path}"', shell=True)
 
         # 2. Clone selected repos
         for name, var in p.repos.items():
@@ -384,10 +384,10 @@ class Install(ctk.CTkFrame):
         patched_sql = patch_sql(p.sql_file.get(), p.db_name.get(), self.log)
 
         # 4. Run SQL
-        # self.log(f"[INFO] Using MySQL at: {p.mysql_path.get()}")
-        # self.log(f"[INFO] Database: {p.db_name.get()}, User: {p.db_user.get()}")
-        # self.log("[INFO] Running SQL... This may take a moment.")
-        # run_sql(p.mysql_path.get(), p.db_name.get(), p.db_user.get(), p.db_pass.get(), patched_sql, self.log, p.errors)
+        self.log(f"[INFO] Using MySQL at: {p.mysql_path.get()}")
+        self.log(f"[INFO] Database: {p.db_name.get()}, User: {p.db_user.get()}")
+        self.log("[INFO] Running SQL... This may take a moment.")
+        run_sql(p.mysql_path.get(), p.db_name.get(), p.db_user.get(), p.db_pass.get(), patched_sql, self.log, p.errors)
 
         # 5. Patch server.cfg
         self.log("[STEP] Patching server.cfg with database name...")
@@ -407,9 +407,9 @@ class Install(ctk.CTkFrame):
                 self.log(f"[WARN] {cfg} not found at expected location")
 
         # 7. Set up artifacts
-        # self.log("[STEP] Setting up artifacts...")
-        # os.makedirs(os.path.join(base,"server1"),exist_ok=True)
-        # download_and_extract(get_latest_artifact(), os.path.join(base,"server1"))
+        self.log("[STEP] Setting up artifacts...")
+        os.makedirs(os.path.join(base,"server1"),exist_ok=True)
+        download_and_extract(get_latest_artifact(), os.path.join(base,"server1"))
 
         # 8. Finish
         self.log("[OK] Installation complete!")
@@ -431,7 +431,6 @@ class Finish(ctk.CTkFrame):
         self.p = p
 
         ctk.CTkLabel(self,text="Installation Complete!", font=ctk.CTkFont(size=20)).pack(pady=20)
-
 
         self.error_label = ctk.CTkLabel(self,text="However, some errors were encountered:", text_color="red")
         self.box = ctk.CTkTextbox(self, width=700, height=200)
